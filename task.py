@@ -1,13 +1,7 @@
-# task.py
-class Task:
-    def __init__(self, title, description):
-        self.title = title
-        self.description = description
-        self.completed = False
-
-    def mark_done(self):
-        self.completed = True
+class Tarefa:
+    def __init__(self, titulo, descricao):
+        self.titulo = titulo
+        self.descricao = descricao
 
     def __str__(self):
-        status = "✔" if self.completed else "✖"
-        return f"[{status}] {self.title}: {self.description}"
+        return f"{self.titulo} - {self.descricao}"
