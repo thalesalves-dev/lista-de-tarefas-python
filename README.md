@@ -1,11 +1,12 @@
 # Lista de Tarefas em Python
 
-Sistema de lista de tarefas desenvolvido em Python com interface gráfica usando Tkinter.
+Projeto simples de lista de tarefas desenvolvido em Python com interface gráfica usando Tkinter.
 
 ## Funcionalidades
 
 - Adicionar tarefas
-- Mostrar tarefas na lista
+- Remover tarefas
+- Salvar tarefas automaticamente
 
 ## Tecnologias
 
@@ -15,7 +16,7 @@ Sistema de lista de tarefas desenvolvido em Python com interface gráfica usando
 ## Como executar
 
 1. Baixe o projeto
-2. Abra a pasta
-3. Execute o arquivo:
+2. Abra a pasta no terminal
+3. Execute:
 
 python main.py
