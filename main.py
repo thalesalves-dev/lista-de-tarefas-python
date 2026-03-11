@@ -1,36 +1,66 @@
 import tkinter as tk
-from task import Task
+from tarefa import Tarefa
 
-tasks = []
+tarefas = []
 
-def add_task():
-    title = entry_title.get()
-    description = entry_desc.get()
-    if title:
-        task = Task(title, description)
-        tasks.append(task)
-        update_listbox()
-        entry_title.delete(0, tk.END)
-        entry_desc.delete(0, tk.END)
+def carregar_tarefas():
+    try:
+        with open("tarefas.txt", "r") as arquivo:
+            for linha in arquivo:
+                titulo, descricao = linha.strip().split("|")
+                tarefas.append(Tarefa(titulo, descricao))
+    except FileNotFoundError:
+        pass
 
-def update_listbox():
-    listbox_tasks.delete(0, tk.END)
-    for task in tasks:
-        listbox_tasks.insert(tk.END, str(task))
+def salvar_tarefas():
+    with open("tarefas.txt", "w") as arquivo:
+        for tarefa in tarefas:
+            arquivo.write(f"{tarefa.titulo}|{tarefa.descricao}\n")
 
-root = tk.Tk()
-root.title("Lista de Tarefas")
+def adicionar_tarefa():
+    titulo = entrada_titulo.get()
+    descricao = entrada_descricao.get()
 
-tk.Label(root, text="Título:").pack()
-entry_title = tk.Entry(root)
-entry_title.pack()
+    if titulo:
+        tarefa = Tarefa(titulo, descricao)
+        tarefas.append(tarefa)
+        atualizar_lista()
+        salvar_tarefas()
 
-tk.Label(root, text="Descrição:").pack()
-entry_desc = tk.Entry(root)
-entry_desc.pack()
+        entrada_titulo.delete(0, tk.END)
+        entrada_descricao.delete(0, tk.END)
 
-tk.Button(root, text="Adicionar Tarefa", command=add_task).pack()
-listbox_tasks = tk.Listbox(root, width=50)
-listbox_tasks.pack()
+def remover_tarefa():
+    selecionado = lista_tarefas.curselection()
+    if selecionado:
+        tarefas.pop(selecionado[0])
+        atualizar_lista()
+        salvar_tarefas()
 
-root.mainloop()
+def atualizar_lista():
+    lista_tarefas.delete(0, tk.END)
+    for tarefa in tarefas:
+        lista_tarefas.insert(tk.END, str(tarefa))
+
+carregar_tarefas()
+
+janela = tk.Tk()
+janela.title("Lista de Tarefas")
+
+tk.Label(janela, text="Título").pack()
+entrada_titulo = tk.Entry(janela)
+entrada_titulo.pack()
+
+tk.Label(janela, text="Descrição").pack()
+entrada_descricao = tk.Entry(janela)
+entrada_descricao.pack()
+
+tk.Button(janela, text="Adicionar", command=adicionar_tarefa).pack()
+tk.Button(janela, text="Remover", command=remover_tarefa).pack()
+
+lista_tarefas = tk.Listbox(janela, width=50)
+lista_tarefas.pack()
+
+atualizar_lista()
+
+janela.mainloop()
